@@ -1,60 +1,18 @@
-@extends('layouts.app')
-
-@section('titulo')
-    LOGIN
-@endsection
-
-@section('contenido')
+<x-layout title="LOG IN">
     <div class="md:flex md:justify-center md:items-center">
         <div class="md:w-4/12 bg-white p-6 rounded-lg shadow-2xl">
             <div class="md:flex md:justify-center hidden sm:block">
                 <img class="max-h-20" src="{{ asset('img/utp.png')}}" alt="UTP Social">
             </div>
-
-            <h2 class="mb:5 text-gray-600 font-bold font-sans text-center "> Inicia Sesion</h2>
-
-            <form action="{{route('login')}}" method="POST">
-                @csrf
-                <div class="mb-5">
-                    <label for="username" class="mb-2 block uppercase text-gray-500 font-bold ">
-                        Username
-                    </label>
-                    <input
-                    id="username"
-                    name="username" 
-                    type="text"
-                    placeholder="Username"
-                    class="border p-3 w-full rounded-lg"
-                    >
-                </div>
-
-                <div class="mb-5">
-                    <label for="password" class="mb-2 block uppercase text-gray-500 font-bold ">
-                        Password
-                    </label>
-                    <input 
-                        id="password"
-                        name="password"
-                        type="password"
-                        placeholder="Password"
-                        class="border p-3 w-full rounded-lg"
-                    >
-                </div>
-                <input 
-                    type="submit"
-                    value="Log In"
-                    class="bg-gray-400 hover:bg-green-500 transition-colors cursor-pointer uppercase w-full p-3 text-white rounded-lg font-bold"
-                >    
-
-            </form>
-        </div>
+            <h2 class="mb:5 text-gray-600 font-bold font-sans text-center ">Log in</h2>
+            <hr class="mb-5">
+            <x-forms.form route="route{{'login'}}" method="POST" status="warning"> 
+                <x-forms.input name="email" title="Email" placeholder="Email Address" type="email"/>
+                <x-forms.input name="password" title="Password" placeholder="Password" type="password"/>
+            </x-forms.form>
+            <hr class="mt-5 mb-5">
+            <h2 class="text-center"><a class=" text-blue-600" href="{{ route('register') }}">Forgot your Password?</a></h2>
+         </div>
     </div>
-    <div class="md:flex md:justify-center md:items-center mt-10">
-        <div class="md:w-4/12 bg-white p-6 rounded-lg shadow-2xl">
-            <h2 class="text-center">No tienes una cuenta? <a class=" text-blue-600" href="/register">  Registrate</a></h2>
-
-        </div>
-
-    </div>
-    
-@endsection
+    <x-card-footer text="Don't have an account?" route="route{{'register'}}" textSecondary="Sign UP" />
+</x-layout>
