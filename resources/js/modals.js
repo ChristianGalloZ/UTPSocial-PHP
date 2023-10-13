@@ -6,6 +6,49 @@ document.addEventListener('DOMContentLoaded', function() {
     const description = modalStorePost.querySelector('#description');
     const descriptionTextarea = modalStorePost.querySelector('#descriptionTextarea');
     const divEmoji = modalStorePost.querySelector('#emoji');
+    const optionPost = document.getElementById('options-post');
+    const cancelarB = document.getElementById('cancelar-eliminar');
+ 
+    modalShowPost.addEventListener('click', function(event){
+        if (event.target == document.getElementById('more-options')) {
+            let modalAll = optionPost.querySelector('#modal-all');
+            toggleModal(optionPost, 'invisible', false);
+            toggleModal(modalAll, 'sm:w-full', false);
+            toggleModal(modalAll, 'sm:h-full', false);
+
+        }
+    });
+
+    function deletePost(postid) {
+        const formData = new FormData();
+        formData.append('post_id', postid);
+
+        fetch('/api/destroy-post', {
+            method: 'POST', 
+            body: formData // Datos a enviar en la solicitud (en este caso, un objeto FormData)
+        })
+        .then(response => response.json()) // Convertir la respuesta a JSON
+        .then(data => {
+            
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error al eliminar el post ', error);
+        });
+    }
+
+    optionPost.addEventListener('click', function(event){
+        if(event.target == document.getElementById('eliminar-Post')){
+            const post_id = optionPost.getAttribute('data-post-id');
+            deletePost(post_id);
+        }
+    });
+
+
+    cancelarB.addEventListener('click', function(event){
+        console.log('presiono boton salir');
+        toggleModal(optionPost, 'invisible', true);
+    });
 
     document.querySelectorAll('.openModalStorePost').forEach(function (element) {
         element.addEventListener('click', function() {
@@ -75,6 +118,10 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleModal(divEmoji, 'hidden', true);
             divEmoji.innerHTML="";
         }
+
+        if (event.target == document.getElementById('backdrop-modal')) {
+            toggleModal(optionPost, 'invisible', true);
+        }
     });
 
     if (input) {
@@ -113,7 +160,9 @@ document.addEventListener('DOMContentLoaded', function() {
         let description = element.getAttribute('data-description');
         let createdAt = element.getAttribute('data-created-at');
         let userId = element.getAttribute('data-userId');
-        
+        let postId = element.getAttribute("data-id");
+        optionPost.setAttribute("data-post-id", postId);
+
         modalAll.innerHTML = '';
 
         fetch('/api/render-component-post-show?user_id='+userId)
@@ -177,8 +226,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+
     function handleFileUpload(event) {
-        
         const step1 = document.getElementById('step1');
         const spinner = document.getElementById('spinner');
         toggleModal(step1, 'hidden', true);
@@ -246,6 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    
     function calculateElapsedTime(createdAt) {
         const now = new Date();
         const postDate = new Date(createdAt);

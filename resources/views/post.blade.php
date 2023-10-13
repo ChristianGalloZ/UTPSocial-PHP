@@ -63,5 +63,15 @@
         <x-div-modal id="showPost" classButton="closeModalshowPost">
             <x-content-modal-post-show :user="$user"/>
         </x-div-modal>
+       <x-div-modal id="options-post" idBackDropModal="backdrop-modal">
+            <div class=" w-400 h-202 text-center text-white font-semibold flex flex-col items-center bg-zinc-600">
+                ¿Eliminar esta  publicación?
+                <hr class="w-1/2 border-t border-gray-400 my-2">
+                <button id="eliminar-Post"type="submit" class="bg-transparent text-red-600 px-3 py-2 text-sm font-semibold shadow-none hover:bg-transparent focus-visible:outline-none">Eliminar</button>
+                <hr class="w-1/2 border-t border-gray-400 my-2">
+                <button id="cancelar-eliminar" type="submit" class="text-sm font-semibold leading-6 text-gray-90 text-white">Cancelar</button>
+                
+            </div>
+        </x-div-modal> 
     @endif
 </x-layout>
